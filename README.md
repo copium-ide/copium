@@ -7,3 +7,4 @@ Reasons:
 i didnt wanna deal with oudated bindings
 i dont wanna write bindings
 all my libraries i use are native to c++
+garbage collector was obtrusive
