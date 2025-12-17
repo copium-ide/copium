@@ -11,4 +11,4 @@ bin/
 Makefile
 
 # Exclude
-!Vendor/Binaries
+!vendor/bin
