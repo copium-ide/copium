@@ -2,5 +2,5 @@
 
 int main()
 {
-	library::PrintHelloWorld();
+	library::SayHi();
 }

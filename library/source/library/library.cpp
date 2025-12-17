@@ -4,9 +4,9 @@
 
 namespace library {
 
-	void PrintHelloWorld()
+	void SayHi()
 	{
-		std::cout << "Hello World!\n";
+		std::cout << "Hi from Copium!! :3\n";
 		std::cin.get();
 	}
 
