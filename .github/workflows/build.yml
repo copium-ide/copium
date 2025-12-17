@@ -18,6 +18,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install GCC 20
+        run: |
+          sudo apt-get install -y clang
+          echo "CXX=clang++" >> $GITHUB_ENV
+
       - name: Compile
         run: |
           make
