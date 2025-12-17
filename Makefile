@@ -3,7 +3,7 @@ SRC_DIR	 := source
 MOD_DIR	 := $(SRC_DIR)/copium
 BUILD_DIR   := build
 CXX		 := g++
-CXXSTD	  := -std=c++20 -fmodules
+CXXSTD	  := -std=c++20 -fmodules-ts
 
 # find all files
 MOD_SRCS	:= $(wildcard $(MOD_DIR)/*.cpp)
