@@ -9,7 +9,6 @@ gcm.cache/
 *.vcxproj.filters
 *.sln
 *.log
-Makefile
 
 # Exclude
 !vendor/bin
