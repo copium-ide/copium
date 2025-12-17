@@ -1,0 +1,34 @@
+name: Build Library
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository with write permissions
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_PAT }}
+
+      - name: Run setup script and make
+        run: |
+          cd setup/
+          bash linux.sh
+          cd ..
+          make
+
+      - name: Insert build status badge at top of README
+        run: |
+          STATUS_BADGE="[![Build Status](https://github.com/copium-ide/copium/actions/workflows/build/badge.svg)](https://github.com/copium-ide/copium/actions/workflows/build.yml)"
+          README_FILE="README.md"
+          sed -i '1s/^/'"$STATUS_BADGE"'\n\n/' $README_FILE
+
+      - name: Commit and push README changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Docs: Update build status badge in README"
