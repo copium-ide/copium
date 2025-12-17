@@ -9,6 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: build
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository with write permissions
