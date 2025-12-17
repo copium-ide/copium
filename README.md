@@ -12,4 +12,5 @@ garbage collector was obtrusive<br>
 
 
 # How to build
-run `make`
+install `build-essential`, `cmake`, and `ninja`.<br>
+run `build.sh`
