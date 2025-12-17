@@ -18,11 +18,27 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Set up Clang environment
+      - name: Install dependencies and Clang
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang pkg-config libsdl3-dev
+          # Install build essentials, CMake, and Linux-specific SDL3 requirements
+          sudo apt-get install -y clang cmake pkg-config \
+            libasound2-dev libpulse-dev libaudio-dev libjack-dev \
+            libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev \
+            libxi-dev libxss-dev libxkbcommon-dev libwayland-dev \
+            libdbus-1-dev libdecor-0-dev libpipewire-0.3-dev libgbm-dev
           echo "CXX=clang++" >> $GITHUB_ENV
+
+      - name: Build and install SDL3 from source
+        run: |
+          git clone --depth 1 https://github.com/libsdl-org/SDL.git -b main
+          cd SDL
+          mkdir build && cd build
+          # Use Clang for the SDL3 build as well
+          CC=clang CXX=clang++ cmake .. -DCMAKE_BUILD_TYPE=Release -DSDL_TESTS=OFF -DSDL_EXAMPLES=OFF
+          make -j$(nproc)
+          sudo make install
+
 
 
       - name: Compile
