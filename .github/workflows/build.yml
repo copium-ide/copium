@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository with write permissions
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.REPO_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run setup script and make
         run: |
@@ -32,4 +32,4 @@ jobs:
       - name: Commit and push README changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Docs: Update build status badge in README [skip ci]"
+          commit_message: "Docs: Update build status badge in README"
