@@ -18,11 +18,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run setup script and make
+      - name: Compile
         run: |
-          cd setup/
-          bash linux.sh
-          cd ..
           make
 
       - name: Insert build status badge at top of README

@@ -1,6 +1,8 @@
+module;
 #include <iostream>
+export module copium;
 
-namespace copium {
+export namespace copium {
 
 	void SayHi()
 	{

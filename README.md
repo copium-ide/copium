@@ -12,6 +12,4 @@ garbage collector was obtrusive<br>
 
 
 # How to build
-cd to setup/<br>
-run `linux.sh` or `windows.bat` depending on your system<br>
-build with whatever it spits out (in my case, i use `make` to build)<br>
+run `make`
