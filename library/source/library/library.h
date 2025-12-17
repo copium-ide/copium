@@ -2,6 +2,6 @@
 
 namespace library {
 
-	void PrintHelloWorld();
+	void SayHi();
 
 }
