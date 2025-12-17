@@ -27,7 +27,7 @@ jobs:
         run: |
           STATUS_BADGE="[![Build Status](https://github.com/copium-ide/copium/actions/workflows/build/badge.svg)](https://github.com/copium-ide/copium/actions/workflows/build.yml)"
           README_FILE="README.md"
-          sed -i '1s/^/'"$STATUS_BADGE"'\n\n/' $README_FILE
+          sed -i "1s|^|${STATUS_BADGE}\n\n|" $README_FILE
 
       - name: Commit and push README changes
         uses: stefanzweifel/git-auto-commit-action@v5
