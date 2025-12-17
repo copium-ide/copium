@@ -1,4 +1,4 @@
-|^|[![Build Status](https://github.com/copium-ide/copium/actions/workflows/build/badge.svg)](https://github.com/copium-ide/copium/actions/workflows/build.yml)
+[![Build Status](https://github.com/copium-ide/copium/actions/workflows/build/badge.svg)](https://github.com/copium-ide/copium/actions/workflows/build.yml)
 
 |
 
