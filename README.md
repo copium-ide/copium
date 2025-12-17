@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/copium-ide/copium/actions/workflows/build/badge.svg)](https://github.com/copium-ide/copium/actions/workflows/build.yml)
+
 # copium
 c++ rewrite of the d one<br>
 
