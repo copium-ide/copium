@@ -17,17 +17,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install Clang and SDL3
-        uses: libsdl-org/setup-sdl@v1
-        with:
-          install-linux-dependencies: true
-          version: 3-latest
           
       - name: Set up Clang environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang pkg-config
+          sudo apt-get install -y clang pkg-config libsdl3-dev
           echo "CXX=clang++" >> $GITHUB_ENV
 
 
