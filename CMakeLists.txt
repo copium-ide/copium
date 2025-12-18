@@ -44,11 +44,4 @@ target_sources(my_game
             ${MOD_INTERFACES}
 )
 
-include(FetchContent)
-FetchContent_Declare(
-    SDL3
-    GIT_REPOSITORY github.com
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(SDL3)
 target_link_libraries(my_game PRIVATE SDL3::SDL3)
