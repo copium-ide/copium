@@ -17,7 +17,7 @@ include(FetchContent)
 FetchContent_Declare(
     DILIGENT
     GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentEngine.git
-    GIT_TAG main
+    GIT_TAG master
 )
 FetchContent_MakeAvailable(DILIGENT)
 
