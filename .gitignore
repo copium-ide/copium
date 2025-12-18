@@ -10,6 +10,7 @@ gcm.cache/
 *.vcxproj.filters
 *.sln
 *.log
+sources.cmake
 
 # Exclude
 !vendor/bin
