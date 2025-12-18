@@ -13,6 +13,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL3)
 
+include(FetchContent)
+FetchContent_Declare(
+    DILIGENT
+    GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentEngine.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(DILIGENT)
+
 file(GLOB_RECURSE ALL_SRCS "source/*.cpp")
 
 set(MOD_INTERFACES "")
