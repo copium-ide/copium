@@ -84,11 +84,6 @@ public:
         close();
     }
 
-    // no direct state copy
-    /*
-    Window(const Window&) = delete; 
-    Window& operator=(const Window&) = delete;*/
-
     // new constructor for handling copying
     Window(const Window& other)
         : title(other.title), x(other.x), y(other.y), w(other.w), h(other.h), flags(other.flags) {
