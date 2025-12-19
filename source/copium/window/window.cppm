@@ -15,8 +15,8 @@ struct WindowControls {
 
     // Window functionality
     static constexpr windowFlag RESIZABLE           = SDL_WINDOW_RESIZABLE;
-    static constexpr windowFlag MINIMIZED           = SDL_WINDOW_MINIMIZED;
-    static constexpr windowFlag MAXIMIZED           = SDL_WINDOW_MAXIMIZED;
+    static constexpr windowFlag MINIMIZE            = SDL_WINDOW_MINIMIZED;
+    static constexpr windowFlag MAXIMIZE            = SDL_WINDOW_MAXIMIZED;
     static constexpr windowFlag NOT_FOCUSABLE       = SDL_WINDOW_NOT_FOCUSABLE;
 
     // Window appearance
@@ -57,58 +57,96 @@ struct WindowControls {
     }
 };
 
-// Global instance to allow "windowControls.pollEvents()" and flag access
 inline WindowControls windowControls;
 
 class Window {
 private:
     SDL_Window* window = nullptr;
+    std::string title;
+    int x, y, w, h;
+    std::vector<windowFlag> flags;
     
+
+    Uint32 getCombinedFlags() const {
+        return std::accumulate(flags.begin(), flags.end(), 0ULL, 
+            [](Uint32 acc, windowFlag flag) {
+                return acc | static_cast<Uint32>(flag);
+            });
+    }
 
 public:
     bool closed = false;
-    Window(const std::string& title, int x, int y, int w, int h, const std::vector<windowFlag>& flags) {
-        if (SDL_WasInit(0) == 0) {
-            SDL_Init(0);
-        }
-        if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
-            SDL_InitSubSystem(SDL_INIT_VIDEO);
-        }
-
-        // Combine flags using bitwise OR (equivalent to D's reduce!"|")
-        windowFlag combinedFlags = std::accumulate(flags.begin(), flags.end(), 0ULL, std::bit_or<windowFlag>());
-
-        this->window = SDL_CreateWindow(title.c_str(), w, h, combinedFlags);
-        if (this->window) {
-            SDL_SetWindowPosition(this->window, (float)x, (float)y);
-        }
+    Window(const std::string& title, int x, int y, int w, int h, const std::vector<windowFlag>& flags)
+        : title(title), x(x), y(y), w(w), h(h), flags(flags) {
     }
 
     ~Window() {
         close();
     }
 
-    // RAII: Prevent copying to avoid multiple objects managing one pointer
-    Window(const Window&) = delete;
-    Window& operator=(const Window&) = delete;
+    // no direct state copy
+    /*
+    Window(const Window&) = delete; 
+    Window& operator=(const Window&) = delete;*/
 
-    SDL_Window* getWindowContext() { return this->window; }
+    // new constructor for handling copying
+    Window(const Window& other)
+        : title(other.title), x(other.x), y(other.y), w(other.w), h(other.h), flags(other.flags) {
+    }
+
+    // operator overload for = (copy)
+    Window& operator=(const Window& other) {
+        if (this != &other) {
+            close();
+            title = other.title;
+            x = other.x;
+            y = other.y;
+            w = other.w;
+            h = other.h;
+            flags = other.flags;
+            open();
+        }
+        return *this;
+    }
+
+    SDL_Window* getWindowContext() const { return this->window; }
 
     bool shouldClose() {
-        bool closeRequested = false;
-        if (windowControls.event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
-            if (windowControls.event.window.windowID == SDL_GetWindowID(this->window)) {
-                closeRequested = true;
+        SDL_Event windowControls;
+            if (WindowControls::event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED)
+            {
+                if (WindowControls::event.window.windowID == SDL_GetWindowID(this->window))
+                {
+                    return true;
+                }
             }
-        }
-        return closeRequested;
+        return false;
     }
 
     void close() {
-        if (!closed && this->window != nullptr) {
+        if (!closed && this->window != nullptr)
+        {
             SDL_DestroyWindow(this->window);
             this->window = nullptr;
             this->closed = true;
+        }
+    }
+    
+    void open() {
+        if (this->window == nullptr) {
+            if (SDL_WasInit(0) == 0) {
+                SDL_Init(0);
+            }
+            if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
+                SDL_InitSubSystem(SDL_INIT_VIDEO);
+            }
+
+            this->window = SDL_CreateWindow(title.c_str(), x, y, getCombinedFlags());
+            if (this->window) {
+                SDL_SetWindowPosition(this->window, x, y);
+                SDL_SetWindowSize(this->window, w, h);
+                closed = false;
+            }
         }
     }
 };
