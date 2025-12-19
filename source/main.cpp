@@ -5,6 +5,7 @@ int main()
 {
 	copium::SayHi();
 	window::Window window("window", 100, 100, 800, 600, {});
+    window.open();
 	while (!(window.closed))
     {
         window::windowControls.pollEvents();
