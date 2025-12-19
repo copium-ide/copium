@@ -16,15 +16,12 @@ if(ipo_supported AND CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 # cut the fat from dependencies 
-set(DILIGENT_BUILD_SAMPLES OFF CACHE BOOL "" FORCE)
-set(DILIGENT_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(SDL_TEST OFF CACHE BOOL "" FORCE)
 set(SDL_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 include(FetchContent)
 FetchContent_Declare(SDL3 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git GIT_TAG main)
-FetchContent_Declare(DILIGENT GIT_REPOSITORY https://github.com/DiligentGraphics/DiligentEngine.git GIT_TAG master)
-FetchContent_MakeAvailable(SDL3 DILIGENT)
+FetchContent_MakeAvailable(SDL3)
 
 
 add_executable(my_game ${REGULAR_SRCS})
@@ -45,4 +42,4 @@ else()
     target_link_options(my_game PRIVATE -Wl,--gc-sections)
 endif()
 
-target_link_libraries(my_game PRIVATE SDL3::SDL3 Diligent-GraphicsEngine)
+target_link_libraries(my_game PRIVATE SDL3::SDL3)
