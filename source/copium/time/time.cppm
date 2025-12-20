@@ -36,7 +36,8 @@ class Delay
     * @brief determines if the timer is over
     * @return true if it should, false if not
     */
-    bool shouldFire()
+    bool
+    shouldFire()
     {
         auto currentTime = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration<float>(currentTime - startTime);
@@ -54,7 +55,8 @@ class Delay
      * @brief Changes the looping behavior of the Delay object
      * @param loop New looping status (true for looping, false for one-time)
      */
-    void setLooping(bool loop)
+    void
+    setLooping(bool loop)
     {
         isLooping = loop;
     }
@@ -63,7 +65,8 @@ class Delay
      * @brief Changes the duration of the Delay object
      * @param newDuration New interval in seconds
      */
-    void setDuration(float newDuration)
+    void
+    setDuration(float newDuration)
     {
         interval = std::chrono::duration<float>(newDuration);
     }
@@ -71,7 +74,8 @@ class Delay
     /**
      * @brief Resets the clock to the current time
      */
-    void reset()
+    void
+    reset()
     {
         startTime = std::chrono::steady_clock::now();
     }
@@ -82,23 +86,31 @@ class FPS
     public:
     float frames;
     float delta;
+
     FPS(float value)
     {
         this->frames = value;
         this-> delta = 1/value;
     }
+
     ~FPS()
     {}
-    void setFPS(float value)
+
+    void
+    setFPS(float value)
     {
         this->frames = value;
         this-> delta = 1/value;
     }
-    float getDuration()
+
+    float
+    getDuration()
     {
         return this->delta;
     }
-    float getFPS()
+
+    float
+    getFPS()
     {
         return this->frames;
     }

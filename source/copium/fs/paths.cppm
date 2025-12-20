@@ -10,6 +10,7 @@ export namespace Paths {
     getDir()
     {
         return std::filesystem::current_path();
+        // TODO: Make sure this returns the path of the application executable (this app)
     }
 
     std::string
@@ -22,6 +23,7 @@ export namespace Paths {
     getWorkingDirectory()
     {
         return std::filesystem::current_path();
+        // TODO: Make sure this returns the path that the console shell is currently in
     }
 
     bool

@@ -2,11 +2,12 @@ module;
 #include <iostream>
 export module copium;
 
-export namespace copium {
+export namespace Copium {
 
-	void SayHi()
-	{
-		std::cout << "Hi from Copium!! :3\n";
-	}
+void
+sayHi()
+{
+	std::cout << "Hi from Copium!! :3\n";
+}
 
 }

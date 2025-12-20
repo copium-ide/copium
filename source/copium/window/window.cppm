@@ -5,11 +5,9 @@ module;
 #include <numeric>
 export module copium.window;
 
-export namespace window {
-
 using windowFlag = uint64_t;
 
-struct WindowControls {
+export struct WindowControls {
     // Globals
     inline static SDL_Event event;
 
@@ -52,30 +50,36 @@ struct WindowControls {
     // Misc
     static constexpr windowFlag EXTERNAL            = SDL_WINDOW_EXTERNAL; ///< Window was not created with SDL or the standard Copium window library (basically sdl)
 
-    static void pollEvents() {
+    static void
+    pollEvents()
+    {
         SDL_PollEvent(&event);
     }
 };
 
 inline WindowControls windowControls;
 
-class Window {
-private:
+export class Window
+{
+    private:
     SDL_Window* window = nullptr;
     std::string title;
     int x, y, w, h;
     std::vector<windowFlag> flags;
     
 
-    Uint32 getCombinedFlags() const {
+    Uint32
+    getCombinedFlags()
+    const {
         return std::accumulate(flags.begin(), flags.end(), 0ULL, 
             [](Uint32 acc, windowFlag flag) {
                 return acc | static_cast<Uint32>(flag);
             });
     }
 
-public:
+    public:
     bool closed = false;
+
     Window(const std::string& title, int x, int y, int w, int h, const std::vector<windowFlag>& flags)
         : title(title), x(x), y(y), w(w), h(h), flags(flags) {
     }
@@ -90,7 +94,8 @@ public:
     }
 
     // operator overload for = (copy)
-    Window& operator=(const Window& other) {
+    Window& operator=(const Window& other)
+    {
         if (this != &other) {
             close();
             title = other.title;
@@ -104,9 +109,15 @@ public:
         return *this;
     }
 
-    SDL_Window* getWindowContext() const { return this->window; }
+    SDL_Window*
+    getWindowContext()
+    const {
+        return this->window;
+    }
 
-    bool shouldClose() {
+    bool 
+    shouldClose()
+    {
         SDL_Event windowControls;
             if (WindowControls::event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED)
             {
@@ -118,7 +129,9 @@ public:
         return false;
     }
 
-    void close() {
+    void
+    close()
+    {
         if (!closed && this->window != nullptr)
         {
             SDL_DestroyWindow(this->window);
@@ -127,17 +140,23 @@ public:
         }
     }
     
-    void open() {
-        if (this->window == nullptr) {
-            if (SDL_WasInit(0) == 0) {
+    void 
+    open()
+    {
+        if (this->window == nullptr)
+        {
+            if (SDL_WasInit(0) == 0)
+            {
                 SDL_Init(0);
             }
-            if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
+            if (SDL_WasInit(SDL_INIT_VIDEO) == 0)
+            {
                 SDL_InitSubSystem(SDL_INIT_VIDEO);
             }
 
             this->window = SDL_CreateWindow(title.c_str(), x, y, getCombinedFlags());
-            if (this->window) {
+            if (this->window)
+            {
                 SDL_SetWindowPosition(this->window, x, y);
                 SDL_SetWindowSize(this->window, w, h);
                 closed = false;
@@ -145,5 +164,3 @@ public:
         }
     }
 };
-
-}
