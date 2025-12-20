@@ -1,5 +1,6 @@
 import copium;
 import copium.window;
+import copium.render.vulkan;
 import copium.time;
 import copium.logging;
 
@@ -8,10 +9,16 @@ main()
 {
 	Copium::sayHi();
 
-	Window window("window", 100, 100, 800, 600, {});
+	Window window("window", 100, 100, 800, 600, {
+        WindowControls::RESIZABLE,
+        WindowControls::VULKAN,
+        WindowControls::TRANSPARENT
+    });
     window.open();
 
-    Time::Delay fps(Time::FPS(5).getDuration(), true);
+    VulkanRender renderer(&window);
+
+    Time::Delay fps(Time::FPS(60).getDuration(), true);
 
 	while (!(window.closed))
     {
@@ -22,7 +29,7 @@ main()
         }
         if (fps.shouldFire())
         {
-            Logging::print("INFO", 0, "render");
+            renderer.renderBlank(0xaaffaaff);
         }
         
     }
