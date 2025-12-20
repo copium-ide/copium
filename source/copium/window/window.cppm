@@ -63,9 +63,7 @@ export class Window
 {
     private:
     SDL_Window* window = nullptr;
-    std::string title;
-    int x, y, w, h;
-    std::vector<windowFlag> flags;
+    
     
 
     Uint32
@@ -78,7 +76,11 @@ export class Window
     }
 
     public:
+    std::string title;
+    int x, y, w, h;
+    std::vector<windowFlag> flags;
     bool closed = false;
+    Uint32 handle = 0;
 
     Window(const std::string& title, int x, int y, int w, int h, const std::vector<windowFlag>& flags)
         : title(title), x(x), y(y), w(w), h(h), flags(flags) {
@@ -115,6 +117,12 @@ export class Window
         return this->window;
     }
 
+    void*
+    getWindowID()
+    {
+        return &this->handle;
+    }
+
     bool 
     shouldClose()
     {
@@ -136,6 +144,7 @@ export class Window
         {
             SDL_DestroyWindow(this->window);
             this->window = nullptr;
+            this->handle = 0;
             this->closed = true;
         }
     }
@@ -161,6 +170,7 @@ export class Window
                 SDL_SetWindowSize(this->window, w, h);
                 closed = false;
             }
+            this->handle = SDL_GetWindowID(this->window);
         }
     }
 };
