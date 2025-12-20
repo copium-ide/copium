@@ -11,12 +11,12 @@ export class VulkanRender
 public:
     bgfx::Init init;
     Window *window;
-    uint32_t resetFlags;
+    uint32_t renderFlags;
 
     VulkanRender(Window *window)
     {
         this->window = window;
-        this->resetFlags = BGFX_RESET_VSYNC; // vsync ons
+        this->renderFlags = BGFX_RESET_VSYNC; // vsync ons
 
         SDL_Window* sdl_win = (SDL_Window*)window->getWindowContext();
         SDL_PropertiesID props = SDL_GetWindowProperties(sdl_win);
@@ -39,20 +39,20 @@ public:
         this->init.type = bgfx::RendererType::Vulkan;
         this->init.resolution.width = window->w;
         this->init.resolution.height = window->h;
-        this->init.resolution.reset = this->resetFlags;
+        this->init.resolution.reset = this->renderFlags;
 
         bgfx::init(this->init);
     }
 
     void setVSync(bool enabled) {
         if (enabled) {
-            this->resetFlags |= BGFX_RESET_VSYNC;
+            this->renderFlags |= BGFX_RESET_VSYNC;
         } else {
-            this->resetFlags &= ~BGFX_RESET_VSYNC;
+            this->renderFlags &= ~BGFX_RESET_VSYNC;
         }
 
         // apply changes
-        bgfx::reset(this->window->w, this->window->h, this->resetFlags);
+        bgfx::reset(this->window->w, this->window->h, this->renderFlags);
     }
 
     void renderBlank(unsigned long long color) {
