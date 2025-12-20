@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
-project(my_game LANGUAGES CXX)
+project(copium LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
+
+# get name
+if(NOT DEFINED name)
+    set(name "my_game")
+endif()
 
 # use detected modules
 include(${CMAKE_CURRENT_SOURCE_DIR}/sources.cmake)
@@ -42,11 +47,11 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SDL3 bgfx)
 
-add_executable(my_game ${REGULAR_SRCS})
+add_executable(${name} ${REGULAR_SRCS})
 
 # activate modules
 if(MOD_INTERFACES)
-    target_sources(my_game PRIVATE 
+    target_sources(${name} PRIVATE 
         FILE_SET CXX_MODULES TYPE CXX_MODULES 
         FILES ${MOD_INTERFACES}
     )
@@ -54,13 +59,13 @@ endif()
 
 # send unused code to narnia
 if(MSVC)
-    target_link_options(my_game PRIVATE /OPT:REF /OPT:ICF)
+    target_link_options(${name} PRIVATE /OPT:REF /OPT:ICF)
 else()
-    target_compile_options(my_game PRIVATE -ffunction-sections -fdata-sections)
-    target_link_options(my_game PRIVATE -Wl,--gc-sections)
+    target_compile_options(${name} PRIVATE -ffunction-sections -fdata-sections)
+    target_link_options(${name} PRIVATE -Wl,--gc-sections)
 endif()
 
-target_link_libraries(my_game PRIVATE 
+target_link_libraries(${name} PRIVATE 
     SDL3::SDL3 
     bgfx
 )

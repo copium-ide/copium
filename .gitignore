@@ -3,6 +3,7 @@
 .vs/
 build/
 gcm.cache/
+packaged/
 
 # Files
 *.vcxproj
