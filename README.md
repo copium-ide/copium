@@ -1,7 +1,9 @@
 # copium
 c++ rewrite of the d one<br>
 
-uses sdl3 and diligent rendering<br>
+uses<br>
+sdl3<br>
+bgfx<br>
 
 Reasons:<br>
 i didnt wanna deal with oudated bindings<br>
