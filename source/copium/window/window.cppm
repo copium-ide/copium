@@ -82,8 +82,8 @@ export class Window
     bool closed = false;
     Uint32 handle = 0;
 
-    Window(const std::string& title, int x, int y, int w, int h, const std::vector<windowFlag>& flags)
-        : title(title), x(x), y(y), w(w), h(h), flags(flags) {
+    Window(const std::string& title, const std::vector<windowFlag>& flags)
+        : title(title), flags(flags) {
     }
 
     ~Window() {
@@ -92,7 +92,9 @@ export class Window
 
     // new constructor for handling copying
     Window(const Window& other)
-        : title(other.title), x(other.x), y(other.y), w(other.w), h(other.h), flags(other.flags) {
+        : title(other.title),  flags(other.flags) {
+        this->setWindowSize(other.w, other.h);
+        this->setWindowPosition(other.x, other.y);
     }
 
     // operator overload for = (copy)
@@ -110,6 +112,59 @@ export class Window
         }
         return *this;
     }
+
+    void
+    setWindowSize(int w, int h)
+    {
+        this->w = w;
+        this->h = h;
+        if (!this->closed) {
+            SDL_SetWindowSize(this->window, w, h);
+        }
+    }
+    void
+    setWindowPosition(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
+        if (!this->closed) {
+            SDL_SetWindowPosition(this->window, x, y);
+        }
+    }
+
+    int
+    getWindowWidth()
+    {
+        if (!this->closed) {
+            SDL_GetWindowSize(this->window, &this->w, &this->h);
+        }
+        return this->w;
+    }
+    int
+    getWindowHeight()
+    {
+        if (!this->closed) {
+            SDL_GetWindowSize(this->window, &this->w, &this->h);
+        }
+        return this->h;
+    }
+
+    int getWindowX() {
+        if (!this->closed) {
+            SDL_GetWindowPosition(this->window, &this->x, &this->y);
+            return this->x;
+        }
+        return this->x;
+    }
+
+    int getWindowY() {
+        if (!this->closed) {
+            SDL_GetWindowPosition(this->window, &this->x, &this->y);
+            return this->y;
+        }
+        return this->y;
+    }
+
 
     SDL_Window*
     getWindowContext()
