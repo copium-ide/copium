@@ -2,7 +2,7 @@ module;
 #include <SDL3/SDL.h>
 #include <unordered_map>
 #include <string>
-export module copium.input.input;
+export module copium.input;
 
 export class InputManager
 {
